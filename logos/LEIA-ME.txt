@@ -1,0 +1,23 @@
+PASTA DE LOGOS DOS EMITENTES
+==============================
+
+Coloque aqui os arquivos de logo dos emitentes no formato PNG ou JPG.
+
+Como usar:
+1. Salve a logo nesta pasta com um nome sem espaços
+   Exemplo: logo-talento.png, logo-cleaner.png
+
+2. No cadastro do Emitter (POST /emitters ou PUT /emitters/{id}),
+   informe o campo "logoPath" com o nome do arquivo:
+   {
+     "logoPath": "logo-talento.png"
+   }
+
+3. O sistema vai buscar automaticamente o arquivo desta pasta
+   e incluir no cabeçalho do PDF do orçamento.
+
+IMPORTANTE:
+- Use imagens quadradas ou com fundo transparente (PNG) para melhor resultado
+- Tamanho recomendado: 200x200 pixels ou maior
+- Se o arquivo não for encontrado, o orçamento é gerado normalmente sem a logo
+
