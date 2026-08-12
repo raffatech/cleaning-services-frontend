@@ -3,7 +3,7 @@
 // guardando os arquivos do app para funcionar mesmo sem internet
 
 // versão incrementada para forçar o browser a baixar o novo index.html
-const CACHE_NAME = 'cleaner-v2';
+const CACHE_NAME = 'cleaner-v3';
 
 // arquivos que serão salvos no celular na primeira visita
 const ARQUIVOS_PARA_CACHE = [

@@ -1,0 +1,164 @@
+<style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #0d1b2a;
+      color: #f0f0f0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 16px;
+    }
+
+    /* ===== LOGO ===== */
+    .logo-area { text-align: center; margin-bottom: 30px; }
+    .logo-area h1 { font-size: 1.8rem; color: #4aa3df; letter-spacing: 2px;}
+    .logo-area p  { font-size: 0.85rem; color: #a0b4c8; letter-spacing: 1px; margin-top: 4px; }
+
+    /* ===== TELAS — só a .ativa aparece ===== */
+    .tela { display: none; width: 100%; max-width: 420px; }
+    .tela.ativa { display: block; }
+
+    .secao-titulo {
+      text-align: center;
+      font-size: 1rem;
+      color: #a0b4c8;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* ===== CARDS DE SELEÇÃO ===== */
+    .cards { display: flex; flex-direction: column; gap: 16px; }
+    .card {
+      background: #1b2d3e;
+      border: 1px solid #2e4a62;
+      border-radius: 12px;
+      padding: 24px 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    .card:hover, .card:active { background: #1f3a52; border-color: #4aa3df; transform: translateY(-2px); }
+    .card .icone { font-size: 2rem; margin-bottom: 10px; }
+    .card h3 { font-size: 1.2rem; color: #4aa3df; margin-bottom: 6px; }
+    .card p  { font-size: 0.85rem; color: #a0b4c8; }
+
+    /* ===== BOTÃO VOLTAR ===== */
+    .voltar {
+      background: none; border: none; color: #4aa3df;
+      font-size: 0.9rem; cursor: pointer; margin-bottom: 20px;
+      display: flex; align-items: center; gap: 6px; padding: 0;
+    }
+    .voltar:hover { color: #7dc4f0; }
+
+    /* ===== BANNER DO EMITENTE ===== */
+    .emitente-info {
+      background: #1b2d3e; border: 1px solid #2e4a62;
+      border-radius: 10px; padding: 14px 16px;
+      margin-bottom: 24px; text-align: center;
+    }
+    .emitente-info h3 { color: #4aa3df; font-size: 1.1rem; }
+    .emitente-info p  { color: #a0b4c8; font-size: 0.8rem; margin-top: 4px; }
+
+    /* ===== CAMPOS DE FORMULÁRIO ===== */
+    .campo { margin-bottom: 18px; }
+    .campo label {
+      display: block; font-size: 0.85rem; color: #a0b4c8;
+      margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .campo label .opcional {
+      color: #4a6278; font-size: 0.75rem;
+      text-transform: none; letter-spacing: 0; font-weight: normal;
+    }
+    .campo input, .campo textarea {
+      width: 100%; padding: 12px 14px; border-radius: 8px;
+      border: 1px solid #2e4a62; background: #1b2d3e;
+      color: #f0f0f0; font-size: 1rem; outline: none;
+      transition: border-color 0.2s; font-family: inherit;
+    }
+    .campo input:focus, .campo textarea:focus { border-color: #4aa3df; }
+    .campo input::placeholder, .campo textarea::placeholder { color: #4a6278; }
+    .campo textarea { resize: vertical; min-height: 80px; }
+
+    /* ===== SEÇÃO DE ITENS DO ORÇAMENTO ===== */
+    .itens-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .itens-header span { font-size: 0.85rem; color: #a0b4c8; text-transform: uppercase; letter-spacing: 0.5px; }
+    .btn-add-item {
+      background: #1b2d3e; border: 1px dashed #4aa3df;
+      color: #4aa3df; border-radius: 8px; padding: 6px 14px;
+      font-size: 0.85rem; cursor: pointer; transition: all 0.2s;
+    }
+    .btn-add-item:hover { background: #1f3a52; }
+    .lista-itens { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+
+    /* cada item é um card com descrição e linha de valores */
+    .item-card { background: #1b2d3e; border: 1px solid #2e4a62; border-radius: 10px; padding: 14px; }
+    .item-card-header { display: flex; gap: 8px; margin-bottom: 10px; align-items: flex-start; }
+    .item-card-header input {
+      flex: 1; padding: 10px 12px; border-radius: 8px;
+      border: 1px solid #2e4a62; background: #0d1b2a;
+      color: #f0f0f0; font-size: 0.95rem; outline: none;
+      transition: border-color 0.2s; font-family: inherit;
+    }
+    .item-card-header input:focus { border-color: #4aa3df; }
+    .item-card-header input::placeholder { color: #4a6278; }
+
+    /* botão × para remover o item */
+    .btn-remover {
+      background: none; border: 1px solid #3d1616; color: #f47a7a;
+      border-radius: 6px; padding: 10px 12px; cursor: pointer;
+      font-size: 1rem; line-height: 1; flex-shrink: 0; transition: background 0.2s;
+    }
+    .btn-remover:hover { background: #3d1616; }
+
+    /* linha de valor, quantidade e unidade — 3 colunas */
+    .item-card-valores { display: grid; grid-template-columns: 1fr 1fr 80px; gap: 8px; }
+    .item-campo-mini label { display: block; font-size: 0.75rem; color: #4a6278; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.3px; }
+    .item-campo-mini input {
+      width: 100%; padding: 8px 10px; border-radius: 6px;
+      border: 1px solid #2e4a62; background: #0d1b2a;
+      color: #f0f0f0; font-size: 0.9rem; outline: none; transition: border-color 0.2s;
+    }
+    .item-campo-mini input:focus { border-color: #4aa3df; }
+    .item-subtotal { text-align: right; font-size: 0.8rem; color: #4aa3df; margin-top: 8px; }
+
+    /* ===== RESUMO DE TOTAIS ===== */
+    .resumo-total {
+      background: #0d2234; border: 1px solid #2e4a62;
+      border-radius: 10px; padding: 14px 16px; margin-bottom: 18px;
+    }
+    .resumo-linha { display: flex; justify-content: space-between; font-size: 0.9rem; color: #a0b4c8; margin-bottom: 6px; }
+    .resumo-linha.total {
+      color: #4aa3df; font-weight: bold; font-size: 1rem;
+      margin-top: 8px; padding-top: 8px;
+      border-top: 1px solid #2e4a62; margin-bottom: 0;
+    }
+
+    /* ===== BOTÃO GERAR ===== */
+    .btn-gerar {
+      width: 100%; padding: 14px;
+      background: linear-gradient(135deg, #1a6fa8, #4aa3df);
+      color: white; font-size: 1rem; font-weight: bold;
+      border: none; border-radius: 10px; cursor: pointer;
+      letter-spacing: 1px; text-transform: uppercase;
+      transition: opacity 0.2s; margin-top: 8px;
+    }
+    .btn-gerar:hover { opacity: 0.9; }
+    .btn-gerar:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* ===== FEEDBACK ===== */
+    .mensagem {
+      margin-top: 16px; padding: 12px; border-radius: 8px;
+      text-align: center; font-size: 0.9rem; display: none;
+    }
+    .mensagem.sucesso { background: #0d3d1e; border: 1px solid #1a7a3c; color: #4caf7d; }
+    .mensagem.erro    { background: #3d0d0d; border: 1px solid #7a1a1a; color: #f47a7a; }
+    .carregando { display: none; text-align: center; color: #4aa3df; margin-top: 12px; font-size: 0.9rem; }
+
+    .separador { border: none; border-top: 1px solid #2e4a62; margin: 20px 0; }
+
+    footer { margin-top: 40px; color: #2e4a62; font-size: 0.75rem; text-align: center; }
+  </style>
